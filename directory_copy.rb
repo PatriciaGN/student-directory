@@ -20,7 +20,7 @@ def input_students
     puts "To finish, just hit return twice"
     students = []
     puts "Add the name of the student:"
-    name= gets.chomp
+    name= gets.gsub!("\n", "")
     puts "Add the country of the student:"
     country = gets.chomp
     cohort = ""
@@ -52,7 +52,7 @@ def input_students
     cohort = ""
     while cohort.empty? do
       puts "Add the cohort of the student:"
-      cohort = gets.chomps
+      cohort = gets.chomp
       if cohort == ""
           cohort = "November"
           break
