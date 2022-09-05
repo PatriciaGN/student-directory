@@ -38,7 +38,11 @@ def input_students
     end  
     while !name.empty? do
         students << {name: name, cohort: cohort, country: country}
-        puts "Now we have #{students.count} students"
+        if students.count == 1
+            puts "Now we have 1 student."
+        else
+          puts "Now we have #{students.count} students."
+        end
         puts "Add the name of the student:"
         name= gets.chomp
         if !name.empty?
@@ -48,7 +52,7 @@ def input_students
     cohort = ""
     while cohort.empty? do
       puts "Add the cohort of the student:"
-      cohort = gets.chomp
+      cohort = gets.chomps
       if cohort == ""
           cohort = "November"
           break
