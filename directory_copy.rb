@@ -21,6 +21,10 @@ def input_students
     students = []
     puts "Add the name of the student:"
     name= gets.gsub!("\n", "")
+    if name.empty?
+        puts "We don't have any students yet, would you like to join us? :)"
+        exit
+    end
     puts "Add the country of the student:"
     country = gets.chomp
     cohort = ""
@@ -41,7 +45,7 @@ def input_students
         if students.count == 1
             puts "Now we have 1 student."
         else
-          puts "Now we have #{students.count} students."
+            puts "Now we have #{students.count} students."
         end
         puts "Add the name of the student:"
         name= gets.chomp
