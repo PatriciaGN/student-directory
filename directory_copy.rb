@@ -13,38 +13,48 @@ students = [
  {name: "Norman Bates", cohort: :november}
 ]
 =end
+@students = [] # An empty array accessible to all methods (instance variable)
+@cohorts = ["January", "February", "March", "April", 
+  "June", "July", "August", "September", "October", "November", "December"
+  ]
+
 
 def interactive_menu
-  students = []
-    # 1. print the menu and ask the user what to do
   loop do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    # 2. read the input and save it into a variable
-    selection = gets.chomp
-    # 2. read the input and save it into a variable
-    # 3. do what the user has asked
-    case selection
-      when "1"
-        students = input_students
-      when "2"
-        print_header
-        print(students)
-        print_footer(students)
-      when "9"
-        exit
-      else
-        puts "I don't know what you mean, try again"
-      end
+    print_menu
+    process(gets.chomp)
   end
 end
 
+def process(selection)
+  case selection
+    when "1"
+      input_students
+    when "2"
+      show_students
+    when "9"
+      return exit
+    else
+      puts "I don't know what you mean, try again"
+  end
+end
+  
+  
+def print_menu
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+end
+
+def show_students
+    print_header
+    print_student_list(@students)
+    print_footer(@students)
+end
 
 def input_students
     puts "Please enter the names of the students"
     puts "To finish, just hit return twice"
-    students = []
     puts "Add the name of the student:"
     name= gets.gsub!("\n", "")
     if name.empty?
@@ -67,11 +77,11 @@ def input_students
       end
     end  
     while !name.empty? do
-        students << {name: name, cohort: cohort, country: country}
-        if students.count == 1
+        @students << {name: name, cohort: cohort, country: country}
+        if @students.count == 1
             puts "Now we have 1 student."
         else
-            puts "Now we have #{students.count} students."
+            puts "Now we have #{@students.count} students."
         end
         puts "Add the name of the student:"
         name= gets.chomp
@@ -80,19 +90,18 @@ def input_students
           country = gets.chomp
         end
     cohort = ""
-    while cohort.empty? do
+        while cohort.empty? do
       puts "Add the cohort of the student:"
       cohort = gets.chomp
       if cohort == ""
           cohort = "November"
           break
-      elsif (cohort).capitalize != "January" and (cohort).capitalize != "February" and (cohort).capitalize != "March" and (cohort).capitalize != "April" and (cohort).capitalize != "May" and (cohort).capitalize != "June" and (cohort).capitalize != "July" and (cohort).capitalize != "August" and (cohort).capitalize != "September" and (cohort).capitalize != "October" and (cohort).capitalize != "November" and (cohort).capitalize != "December"
+      elsif !@cohorts.include?(cohort.capitalize)
         puts "Please, enter a valid cohort"
         cohort = ""
       end
     end  
     end
-    students
 end
 
 def print_header
@@ -100,10 +109,10 @@ def print_header
   puts ("-------------------").center(50)
 end
 
-def print(students)
+def print_student_list(students)
     counter = 0
-    while counter < students.length
-      puts ("#{counter}. #{students[0 + counter][:name]} from #{students[0 + counter][:country]} (#{students[0 + counter][:cohort]} cohort)").center(50)
+    while counter < @students.length
+      puts ("#{counter}. #{@students[0 + counter][:name]} from #{@students[0 + counter][:country]} (#{@students[0 + counter][:cohort]} cohort)").center(50)
       counter += 1
     end
 end
