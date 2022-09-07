@@ -42,9 +42,13 @@ def print_menu
 end
 
 def show_students
+  if @students.count() != 0
     print_header
     print_student_list(@students)
     print_footer(@students)
+  else
+    puts "We don't have any students currently, are you evil enough to join us? ;)"
+  end
 end
 
 def input_students
