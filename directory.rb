@@ -144,7 +144,7 @@ end
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of the method if it isn't given
+  filename = "students.csv" if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -154,7 +154,7 @@ def try_load_students
   end
 end
 
-#To run the program and load the file, we need to pass it an argument through the command line -> ruby directory.rb students.csv
+#To run the program and load the desired file, we need to pass it an argument through the command line -> ruby directory.rb students.csv
 try_load_students
 
 interactive_menu
