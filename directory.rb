@@ -122,7 +122,9 @@ def print_footer(names)
 end
 
 def save_students
-    file = File.open("students.csv", "w")
+    puts "Which file would you like to save the list of students to?"
+    filename = STDIN.gets.chomp
+    file = File.open(filename, "w")
     @students.each do |student|
         student_data = [student[:name], student[:country], student[:cohort]]
         csv_line = student_data.join(",")
@@ -133,13 +135,13 @@ end
 
 def load_students (filename = "students.csv")
   try_load_students
-  puts "Loaded #{@students.count} from #{filename}"
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, country, cohort = line.chomp.split(",")
     insert_students_in_list(name, country, cohort)
   end
   file.close
+  puts "Loaded #{@students.count} from #{filename}"
 end
 
 
@@ -152,7 +154,7 @@ def try_load_students
   puts "Add the name of the file you would like to load, if no file name is given, 'students.csv' will be loaded"
   filename = STDIN.gets.chomp
   filename = "students.csv" if filename.nil? # get out of the method if it isn't given
-  if File.exists?(filename) or filename = ""
+  if File.exists?(filename) or filename == ""
     return filename
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
