@@ -40,8 +40,8 @@ end
 def print_menu
     puts "1. Input the students"
     puts "2. Show the students"
-    puts "3. Save the list to students.csv"
-    puts "4. Load the list from students.csv"
+    puts "3. Save the list of students"
+    puts "4. Load the list of students"
     puts "9. Exit"
 end
 
@@ -132,6 +132,8 @@ def save_students
 end
 
 def load_students (filename = "students.csv")
+  try_load_students
+  puts "Loaded #{@students.count} from #{filename}"
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, country, cohort = line.chomp.split(",")
@@ -147,11 +149,11 @@ end
 
 
 def try_load_students
-  filename = ARGV.first # first argument from the command line
+  puts "Add the name of the file you would like to load, if no file name is given, 'students.csv' will be loaded"
+  filename = STDIN.gets.chomp
   filename = "students.csv" if filename.nil? # get out of the method if it isn't given
-  if File.exists?(filename)
-    load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+  if File.exists?(filename) or filename = ""
+    return filename
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
@@ -159,6 +161,5 @@ def try_load_students
 end
 
 #To run the program and load the desired file, we need to pass it an argument through the command line -> ruby directory.rb students.csv
-try_load_students
 
 interactive_menu
