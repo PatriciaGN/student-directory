@@ -1,7 +1,7 @@
 # ARGV array initialised automatically
 
 @students = [] # An empty array accessible to all methods (instance variable)
-@current_cohorts = [].sort
+@current_cohorts = []
 
 @cohorts = ["January", "February", "March", "April", 
   "June", "July", "August", "September", "October", "November", "December"
@@ -84,13 +84,21 @@ def print_header
 end
 
 def print_student_list(students)
+    create_cohort_groups
+    print_students_by_cohort
+end
+
+def create_cohort_groups
     counter = 0
-    @students.map do |x|
-      unless @current_cohorts.include?(x[:cohort])
-        @current_cohorts << x[:cohort]
+    @students.map do |each_student|
+      unless @current_cohorts.include?(each_student[:cohort])
+        @current_cohorts << each_student[:cohort]
       end
       counter +=1
     end
+end
+
+def print_students_by_cohort
     counter = 1
     @current_cohorts.each do |cohort|
       puts cohort
@@ -101,13 +109,6 @@ def print_student_list(students)
         end
       end
     end
-=begin
-    counter = 0
-    @students.each do |student|
-      puts ("#{counter}. #{student[:name]} from #{student[:country]} (#{student[:cohort]} cohort)").center(50)
-      counter += 1
-    end
-=end
 end
 
 def print_footer(names)
