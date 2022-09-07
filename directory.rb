@@ -3,8 +3,8 @@
 @students = [] # An empty array accessible to all methods (instance variable)
 @current_cohorts = []
 
-@cohorts = ["January", "February", "March", "April", 
-  "June", "July", "August", "September", "October", "November", "December"
+@cohorts = [:January, :February, :March, :April, 
+  :June, :July, :August, :September, :October, :November, :December
   ]
 
 
@@ -62,7 +62,7 @@ def input_students
       puts "Add the cohort of the student (if left blank, it will default to our November cohort):"
       cohort = STDIN.gets.chomp.to_sym
       end
-      while !@cohorts.include?(cohort.capitalize) and cohort != ""
+      while !@cohorts.include?(cohort.capitalize.to_sym) and cohort != ""
         puts "Please, enter a valid cohort"
         cohort = STDIN.gets.chomp
       end
@@ -89,12 +89,10 @@ def print_student_list(students)
 end
 
 def create_cohort_groups
-    counter = 0
     @students.map do |each_student|
       unless @current_cohorts.include?(each_student[:cohort])
         @current_cohorts << each_student[:cohort]
       end
-      counter +=1
     end
 end
 
