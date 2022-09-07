@@ -1,7 +1,7 @@
 # ARGV array initialised automatically
 
-@students = [].sort_by { |x| x[:cohort]} # An empty array accessible to all methods (instance variable)
-
+@students = [] # An empty array accessible to all methods (instance variable)
+@current_cohorts = [].sort
 
 @cohorts = ["January", "February", "March", "April", 
   "June", "July", "August", "September", "October", "November", "December"
@@ -85,10 +85,29 @@ end
 
 def print_student_list(students)
     counter = 0
-    while counter < @students.length
-      puts ("#{counter}. #{@students[0 + counter][:name]} from #{@students[0 + counter][:country]} (#{@students[0 + counter][:cohort]} cohort)").center(50)
+    @students.map do |x|
+      unless @current_cohorts.include?(x[:cohort])
+        @current_cohorts << x[:cohort]
+      end
+      counter +=1
+    end
+    counter = 1
+    @current_cohorts.each do |cohort|
+      puts cohort
+      @students.each do |student|
+        if student[:cohort] == cohort
+        puts ("#{counter}. #{student[:name]} from #{student[:country]} (#{student[:cohort]} cohort)").center(50)
+      counter += 1
+        end
+      end
+    end
+=begin
+    counter = 0
+    @students.each do |student|
+      puts ("#{counter}. #{student[:name]} from #{student[:country]} (#{student[:cohort]} cohort)").center(50)
       counter += 1
     end
+=end
 end
 
 def print_footer(names)
