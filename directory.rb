@@ -19,13 +19,17 @@ def process(selection)
   case selection
     when "1"
       input_students
+      puts "The students has been added to our directory."
     when "2"
       show_students
     when "3"
       save_students
+      puts "The students have been saved successfully. Hurray!"
     when "4"
       load_students
+      puts "The students have been loaded successfully."
     when "9"
+      puts "Bye!"
       return exit
     else
       puts "I don't know what you mean, try again"
@@ -61,17 +65,17 @@ def input_students
       if name.empty?
         break
       else
-      puts "Add the country of the student:"
-      country = STDIN.gets.chomp
+        puts "Add the country of the student:"
+        country = STDIN.gets.chomp
+      end
       puts "Add the cohort of the student (if left blank, it will default to our November cohort):"
       cohort = STDIN.gets.chomp.to_sym
+      if cohort == ("").to_sym
+          cohort = "November"
       end
-      while !@cohorts.include?(cohort.capitalize.to_sym) and cohort != ""
+      while !@cohorts.include?(cohort.capitalize.to_sym)
         puts "Please, enter a valid cohort"
         cohort = STDIN.gets.chomp
-      end
-      if cohort == ""
-        cohort = "November"
       end
       insert_students_in_list(name, country, cohort)
       if @students.count == 1
