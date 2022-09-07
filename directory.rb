@@ -73,7 +73,7 @@ def input_students
       if cohort == ""
         cohort = "November"
       end
-      @students << {name: name, cohort: cohort, country: country}
+      insert_students_in_list(name, country, cohort)
       if @students.count == 1
         puts "Now we have 1 student."
       else
@@ -131,10 +131,16 @@ def load_students (filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, country, cohort = line.chomp.split(",")
-    @students << {name: name, country: country, cohort: cohort.to_sym}
+    insert_students_in_list(name, country, cohort)
   end
   file.close
 end
+
+
+def insert_students_in_list(name, country, cohort)
+  @students << {name: name, country: country, cohort: cohort.to_sym}
+end
+
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
