@@ -9,7 +9,7 @@
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -51,18 +51,18 @@ def input_students
       puts "Please enter the names of the students"
       puts "To finish, just hit return twice"
       puts "Add the name of the student:"
-      name= gets.gsub!("\n", "")
+      name= STDIN.gets.gsub!("\n", "")  # As we have a loaded file in our program, we need to indicate "gets" to read from keyboard (STDIN), instead of the file.
       if name.empty?
         break
       else
       puts "Add the country of the student:"
-      country = gets.chomp
+      country = STDIN.gets.chomp
       puts "Add the cohort of the student (if left blank, it will default to our November cohort):"
-      cohort = gets.chomp
+      cohort = STDIN.gets.chomp
       end
       while !@cohorts.include?(cohort.capitalize) and cohort != ""
         puts "Please, enter a valid cohort"
-        cohort = gets.chomp
+        cohort = STDIN.gets.chomp
       end
       if cohort == ""
         cohort = "November"
@@ -103,13 +103,27 @@ def save_students
     file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students (filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
   name, country, cohort = line.chomp.split(",")
     @students << {name: name, country: country, cohort: cohort.to_sym}
   end
   file.close
 end
+
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
+
+try_load_students
 
 interactive_menu
