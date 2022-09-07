@@ -1,10 +1,12 @@
+# ARGV array initialised automatically
 
+@students = [].sort_by { |x| x[:cohort]} # An empty array accessible to all methods (instance variable)
 
-@students = [] # An empty array accessible to all methods (instance variable)
 
 @cohorts = ["January", "February", "March", "April", 
   "June", "July", "August", "September", "October", "November", "December"
   ]
+
 
 def interactive_menu
   loop do
@@ -58,7 +60,7 @@ def input_students
       puts "Add the country of the student:"
       country = STDIN.gets.chomp
       puts "Add the cohort of the student (if left blank, it will default to our November cohort):"
-      cohort = STDIN.gets.chomp
+      cohort = STDIN.gets.chomp.to_sym
       end
       while !@cohorts.include?(cohort.capitalize) and cohort != ""
         puts "Please, enter a valid cohort"
@@ -124,6 +126,7 @@ def try_load_students
   end
 end
 
+#To run the program and load the file, we need to pass it an argument through the command line -> ruby directory.rb students.csv
 try_load_students
 
 interactive_menu
