@@ -1,5 +1,4 @@
-# ARGV array initialised automatically
-
+require 'csv'
 @students = [] # An empty array accessible to all methods (instance variable)
 @current_cohorts = []
 
@@ -122,7 +121,7 @@ def print_footer(names)
 end
 
 def save_students
-    puts "Which file would you like to save the list of students to? It will load 'students.cvs' if no name given."
+    puts "Which file would you like to save the list of students to? It will load 'students.csv' if no name given."
     filename = STDIN.gets.chomp
     filename = "students.csv" if filename.nil? 
     CSV.open(filename, "w") do |csv|
