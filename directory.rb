@@ -122,25 +122,26 @@ def print_footer(names)
 end
 
 def save_students
-    puts "Which file would you like to save the list of students to?"
+    puts "Which file would you like to save the list of students to? It will load 'students.cvs' if no name given."
     filename = STDIN.gets.chomp
-    file = File.open(filename, "w")
-    @students.each do |student|
-        student_data = [student[:name], student[:country], student[:cohort]]
-        csv_line = student_data.join(",")
-        file.puts csv_line
+    filename = "students.csv" if filename.nil? 
+    CSV.open(filename, "w") do |csv|
+        @students.each do |student|
+           csv << [student[:name], student[:country], student[:cohort]]
+        end
     end
-    file.close
+    puts "Saved #{@students.count} to #{filename}"
 end
+
 
 def load_students (filename = "students.csv")
   try_load_students
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  name, country, cohort = line.chomp.split(",")
-    insert_students_in_list(name, country, cohort)
+  file = File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      name, country, cohort = line.chomp.split(",")
+      insert_students_in_list(name, country, cohort)
+    end
   end
-  file.close
   puts "Loaded #{@students.count} from #{filename}"
 end
 
