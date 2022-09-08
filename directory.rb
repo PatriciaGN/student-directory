@@ -135,13 +135,12 @@ end
 
 def load_students (filename = "students.csv")
   try_load_students
-  file = File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, country, cohort = line.chomp.split(",")
-      insert_students_in_list(name, country, cohort)
-    end
+  file = File.read(filename)
+  csv = CSV.parse(file)
+  csv.each do |row| 
+    @students << {name: row[0], country: row[1], cohort: row[2].to_sym} 
   end
-  puts "Loaded #{@students.count} from #{filename}"
+  puts "Loaded #{@students.count} students from #{filename}"
 end
 
 
